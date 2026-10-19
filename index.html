@@ -21,16 +21,17 @@
     <section id="drop" class="drop" tabindex="0">
       <input id="file" type="file" accept=".csv,text/csv" hidden>
       <p><strong>Įmeskite CSV dokumentą čia</strong> arba <button type="button" id="pick" class="link">pasirinkite failą</button></p>
-      <p class="muted">Stulpeliai: DeliveryDateCET, Area, SupplyDemand, HourIndex_1_25, StartTimeUTC, SeqNr, Qty_MWH, PriceAmount_EUR</p>
-      <p><button type="button" id="sample" class="btn secondary">Išbandyti su pavyzdžiu (2023-01-01, BALTIC)</button></p>
-    </section>
+      <p class="muted">Stulpeliai: DeliveryDateCET, Area, SupplyDemand, HourIndex_1_25, StartTimeUTC, SeqNr, Qty_MWH, PriceAmount_EUR</p>    </section>
 
     <p id="error" class="error" hidden></p>
 
     <section id="results" hidden>
       <div class="toolbar">
         <h2 id="file-name"></h2>
-        <button type="button" id="download" class="btn">Atsisiųsti rezultatus (CSV)</button>
+        <div class="actions">
+          <button type="button" id="upload-new" class="btn secondary">Įkelti naują failą</button>
+          <button type="button" id="download" class="btn">Atsisiųsti rezultatus (CSV)</button>
+        </div>
       </div>
 
       <div id="stats" class="stats"></div>

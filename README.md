@@ -5,7 +5,7 @@ supply and demand curves cross, for every trading period (hour) in an uploaded C
 
 ## Input
 
-A CSV with the same structure as `sample/AggregatedOrder_2023-01-01_PriceCurves_BALTIC.csv`:
+A CSV with the same structure as `AggregatedOrder_2023-01-01_PriceCurves_BALTIC.csv` (the file from the task):
 
 ```
 DeliveryDateCET,Area,SupplyDemand,HourIndex_1_25,StartTimeUTC,SeqNr,Qty_MWH,PriceAmount_EUR
@@ -24,7 +24,7 @@ in the opposite case). The logic is in [`js/clearing.js`](js/clearing.js).
 
 ## Output
 
-A table and charts in the browser, plus a downloadable CSV with
+After a file is uploaded: a table and charts in the browser (another file can be uploaded at any time), plus a downloadable CSV with
 `DeliveryDateCET, Area, HourIndex_1_25, StartTimeUTC, PeriodCET, ClearingPrice_EUR_MWh, ClearedVolume_MWh, Note`.
 
 ## Hosting

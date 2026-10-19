@@ -10,7 +10,11 @@ let state = { periods: [], selected: 0, fileName: '' };
 // ---------- input ----------
 const drop = $('drop');
 $('pick').onclick = () => $('file').click();
-$('file').onchange = e => e.target.files[0] && readFile(e.target.files[0]);
+$('upload-new').onclick = () => $('file').click();
+$('file').onchange = e => {
+  if (e.target.files[0]) readFile(e.target.files[0]);
+  e.target.value = ''; // so the same file can be picked again
+};
 drop.addEventListener('dragover', e => { e.preventDefault(); drop.classList.add('over'); });
 drop.addEventListener('dragleave', () => drop.classList.remove('over'));
 drop.addEventListener('drop', e => {
@@ -19,15 +23,6 @@ drop.addEventListener('drop', e => {
   if (e.dataTransfer.files[0]) readFile(e.dataTransfer.files[0]);
 });
 drop.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') $('file').click(); });
-
-$('sample').onclick = async () => {
-  const name = 'AggregatedOrder_2023-01-01_PriceCurves_BALTIC.csv';
-  try {
-    const res = await fetch(`sample/${name}`);
-    if (!res.ok) throw new Error(`Nepavyko įkelti pavyzdinio dokumento (HTTP ${res.status}).`);
-    run(await res.text(), name);
-  } catch (err) { showError(err.message); }
-};
 
 function readFile(file) {
   const reader = new FileReader();
@@ -49,7 +44,7 @@ function run(text, fileName) {
     render();
   } catch (err) {
     $('results').hidden = true;
-    showError(err.message);
+    showError(`${fileName}: ${err.message}`);
   }
 }
 
