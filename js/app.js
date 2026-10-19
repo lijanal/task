@@ -10,7 +10,6 @@ let state = { periods: [], selected: 0, fileName: '' };
 // ---------- input ----------
 const drop = $('drop');
 $('pick').onclick = () => $('file').click();
-$('upload-new').onclick = () => $('file').click();
 $('file').onchange = e => {
   if (e.target.files[0]) readFile(e.target.files[0]);
   e.target.value = ''; // so the same file can be picked again
