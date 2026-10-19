@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="lt">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Elektros kainos skaičiuoklė</title>
+  <meta name="description" content="Pateikite Nord Pool Day-Ahead suminių pasiūlos ir paklausos kreivių CSV dokumentą ir gaukite elektros energijos kainą kreivių susikirtimo taške kiekvienai valandai.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="wrap">
+    <h1>Elektros kainos skaičiuoklė</h1>
+    <p class="lead">Elektros energijos valandinė kaina Nord Pool Day-Ahead biržoje yra tos valandos prekybinės
+      pasiūlos ir paklausos susikirtimo taškas. Pateikite tokios struktūros ir formato dokumentą kaip
+      <code>AggregatedOrder_2023-01-01_PriceCurves_BALTIC.csv</code>, ir įrankis pateiks pasiūlos ir paklausos
+      kreivių susikirtimo taške esančią elektros energijos kainą (EUR/MWh) kiekvienam dokumente esančiam
+      prekybos laikotarpiui (kiekvienai valandai).</p>
+  </header>
+
+  <main class="wrap">
+    <section id="drop" class="drop" tabindex="0">
+      <input id="file" type="file" accept=".csv,text/csv" hidden>
+      <p><strong>Įmeskite CSV dokumentą čia</strong> arba <button type="button" id="pick" class="link">pasirinkite failą</button></p>
+      <p class="muted">Stulpeliai: DeliveryDateCET, Area, SupplyDemand, HourIndex_1_25, StartTimeUTC, SeqNr, Qty_MWH, PriceAmount_EUR</p>
+      <p><button type="button" id="sample" class="btn secondary">Išbandyti su pavyzdžiu (2023-01-01, BALTIC)</button></p>
+    </section>
+
+    <p id="error" class="error" hidden></p>
+
+    <section id="results" hidden>
+      <div class="toolbar">
+        <h2 id="file-name"></h2>
+        <button type="button" id="download" class="btn">Atsisiųsti rezultatus (CSV)</button>
+      </div>
+
+      <div id="stats" class="stats"></div>
+
+      <div class="card">
+        <h3>Valandinė elektros energijos kaina</h3>
+        <div id="profile" class="chart"></div>
+      </div>
+
+      <div class="grid">
+        <div class="card table-card">
+          <h3>Rezultatai</h3>
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr><th>Data (CET)</th><th>Zona</th><th>Valanda</th><th>Prekybos laikotarpis (CET)</th><th class="num">Kaina, EUR/MWh</th><th class="num">Kiekis, MWh</th></tr>
+              </thead>
+              <tbody id="rows"></tbody>
+            </table>
+          </div>
+          <p class="muted small">Paspauskite eilutę, kad pamatytumėte tos valandos kreives.</p>
+        </div>
+
+        <div class="card">
+          <div class="toolbar">
+            <select id="period" class="period-select" aria-label="Prekybos laikotarpis"></select>
+            <label class="small"><input type="checkbox" id="zoom" checked> Priartinti susikirtimo tašką</label>
+          </div>
+          <div id="curves" class="chart tall"></div>
+          <div class="legend">
+            <span><i class="sw supply"></i>Pasiūla</span>
+            <span><i class="sw demand"></i>Paklausa</span>
+            <span><i class="sw price"></i>Kaina susikirtimo taške</span>
+          </div>
+        </div>
+      </div>
+
+      <details class="card method">
+        <summary>Kaip apskaičiuojama kaina</summary>
+        <p>Kiekvienam prekybos laikotarpiui pasiūlos ir paklausos taškai imami pagal <code>SeqNr</code> eilę ir
+          sujungiami tiesėmis, kaip Nord Pool braižo savo kreives. Kainai kylant paklausa mažėja, o pasiūla
+          didėja, todėl pasiūlos perteklius <em>S(p) − D(p)</em> tik didėja. Kaina yra ten, kur perteklius lygus
+          nuliui: tiksliai ant kreivės laiptelio arba tiesiškai interpoliuota tarp dviejų gretimų kainos taškų.
+          Jei esant didžiausiai kainai paklausa vis dar viršija pasiūlą, pateikiama didžiausia kaina (o jei
+          pasiūla viršija paklausą jau esant mažiausiai kainai, pateikiama mažiausia kaina).</p>
+      </details>
+    </section>
+  </main>
+
+  <footer class="wrap muted small">Skaičiuojama jūsų naršyklėje. Pateikti dokumentai niekur nesiunčiami.</footer>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
