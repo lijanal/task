@@ -32,7 +32,7 @@ After a file is uploaded: a table and charts in the browser (another file can be
 This is a static site with no build step and no dependencies. Cloudflare Pages settings:
 
 - Framework preset: None
-- Build command: *(empty)*
+- Build command: _(empty)_
 - Build output directory: `/`
 
 To run it locally, serve the folder with any static server (ES modules don't load from `file://`), for example:
