@@ -214,6 +214,17 @@ code {
   margin-top: 2px;
 }
 
+/* Same blue in light and dark mode so the white text keeps enough contrast. */
+.stat-highlight {
+  background: #4057e3;
+  border-color: #4057e3;
+  color: #fff;
+}
+
+.stat-highlight .label {
+  color: rgb(255 255 255 / 85%);
+}
+
 .link-stat {
   cursor: pointer;
 }
