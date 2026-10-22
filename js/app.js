@@ -73,10 +73,10 @@ function periodLabel(p) {
 
 const periodTitle = (p) => `${p.date} ${p.area} · ${p.hour} valanda (${periodLabel(p)} CET) · ${fmt(p.price)} EUR/MWh`;
 
-// A summary tile; `link` makes it open that period's curves when clicked.
-function statTile(label, value, link) {
+// A summary tile; `link` makes it open that period's curves when clicked, `highlight` colours it.
+function statTile(label, value, link, highlight = false) {
   const attrs = link ? ` link-stat" data-i="${link.i}" title="Rodyti šios valandos kreives` : '';
-  return `<div class="stat${attrs}">
+  return `<div class="stat${highlight ? ' stat-highlight' : ''}${attrs}">
       <div class="label">${label}</div>
       <div class="value">${value}</div>
       ${link ? `<div class="when">${link.when}</div>` : ''}
@@ -103,7 +103,7 @@ function render() {
   };
   $('stats').innerHTML = [
     statTile('Prekybos laikotarpių', fmt(periods.length, 0)),
-    statTile('Vidutinė kaina, EUR/MWh', fmt(avg)),
+    statTile('Vidutinė kaina, EUR/MWh', fmt(avg), null, true),
     statTile('Mažiausia kaina, EUR/MWh', fmt(min?.p.price), min && { i: min.i, when: when(min) }),
     statTile('Didžiausia kaina, EUR/MWh', fmt(max?.p.price), max && { i: max.i, when: when(max) }),
     statTile('Bendras kiekis, MWh', fmt(vol, 0)),
